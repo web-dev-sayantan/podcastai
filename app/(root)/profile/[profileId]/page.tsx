@@ -1,4 +1,5 @@
-"use client";
+"use client";;
+import { use } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
@@ -7,13 +8,14 @@ import LoaderSpinner from "@/components/LoaderSpinner";
 import PodcastCard from "@/components/PodcastCard";
 import ProfileCard from "@/components/ProfileCard";
 
-const ProfilePage = ({
-  params,
-}: {
-  params: {
-    profileId: string;
-  };
-}) => {
+const ProfilePage = (
+  props: {
+    params: Promise<{
+      profileId: string;
+    }>;
+  }
+) => {
+  const params = use(props.params);
   const user = useQuery(api.users.getUserById, {
     clerkId: params.profileId,
   });

@@ -1,4 +1,5 @@
-"use client";
+"use client";;
+import { use } from "react";
 
 import EmptyState from "@/components/EmptyState";
 import PodcastCard from "@/components/PodcastCard";
@@ -6,11 +7,17 @@ import SearchBar from "@/components/SearchBar";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 
-const Discover = ({
-  searchParams: { search },
-}: {
-  searchParams: { search?: string };
-}) => {
+const Discover = (
+  props: {
+    searchParams: Promise<{ search?: string }>;
+  }
+) => {
+  const searchParams = use(props.searchParams);
+
+  const {
+    search
+  } = searchParams;
+
   const podcasts = useQuery(api.podcasts.getPodcastBySearch, {
     query: search || "",
   });
