@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { use } from "react";
 import Image from "next/image";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -10,11 +10,17 @@ import LoaderSpinner from "@/components/LoaderSpinner";
 import EmptyState from "@/components/EmptyState";
 import { useUser } from "@clerk/nextjs";
 
-export default function PodcastDetails({
-  params: { podcastId },
-}: {
-  params: { podcastId: Id<"podcasts"> };
-}) {
+export default function PodcastDetails(
+  props: {
+    params: Promise<{ podcastId: Id<"podcasts"> }>;
+  }
+) {
+  const params = use(props.params);
+
+  const {
+    podcastId
+  } = params;
+
   const { user } = useUser();
   const podcast = useQuery(api.podcasts.getPodcastbyId, {
     podcastId: podcastId,
